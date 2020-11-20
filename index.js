@@ -16,9 +16,13 @@ app.get('/', (req, res) => {
     status: 'error',
     message: 'Query string wasn\'t provided'
   });
-})
+});
+
+if (config.isDev) {
+  app.use(require('koii'));
+}
 
 app.listen(port, err => {
   const message = err ? `Error starting the app: ${err.message}` : `App started on port ${port}`;
   console.log(message);
-})
+});

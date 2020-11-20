@@ -14,6 +14,7 @@
     "mongoose": "^5.10.15"
   },
   "devDependencies": {
+    "koii": "^2.0.6",
     "nodemon": "^2.0.6"
   },
   "scripts": {
