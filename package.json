@@ -6,6 +6,7 @@
   "author": "Bolaji Olajide",
   "license": "MIT",
   "dependencies": {
+    "csv-parser": "^2.3.3",
     "dotenv": "^8.2.0",
     "env-utils": "^2.2.1",
     "express": "^4.17.1",
