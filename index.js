@@ -1,11 +1,15 @@
 const express = require('express');
 const config = require('lazy-config');
 
+const fetchMongoClient = require('./db/client');
+
+
 const { port } = config.app
 
 const app = express();
 
 app.get('/', (req, res) => {
+  const mongoClient = fetchMongoClient();
   const { q } = req.query
 
   if (q) {

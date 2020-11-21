@@ -13,5 +13,10 @@ module.exports = {
     version: '0.0.1',
     environment: process.env.NODE_ENV || 'development',
     host: '0.0.0.0'
+  },
+
+  db: {
+    url: lazyGetEnvVar('DATABASE_URL'),
+    name: lazyGetEnvVar('DATABASE_NAME', { devDefault: 'qa' })
   }
 }

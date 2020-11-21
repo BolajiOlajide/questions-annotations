@@ -11,7 +11,7 @@
     "env-utils": "^2.2.1",
     "express": "^4.17.1",
     "lazy-config": "^3.0.1",
-    "mongoose": "^5.10.15"
+    "mongodb": "^3.6.3"
   },
   "devDependencies": {
     "koii": "^2.0.6",
