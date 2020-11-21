@@ -9,7 +9,9 @@ const { name: dbName } = config.db;
 
 const app = express();
 
-app.get('/', async (req, res) => {
+app.get('/', (_, res) => res.json('It works!'));
+
+app.get('/search', async (req, res) => {
   const mongoClient = await fetchMongoClient();
 
   const { q } = req.query;
