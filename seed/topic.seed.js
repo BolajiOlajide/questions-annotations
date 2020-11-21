@@ -62,9 +62,8 @@ fs.createReadStream('./dataset/topics.csv')
   })
   .on('end', async () => {
     const mongoClient = await getMongoClient();
-    const db = mongoClient.db(dbName);
     const nestedDataSet = generateNestedSet('Topics', Object.values(results));
-    const result = await db.collection('topics').insertMany(nestedDataSet);
+    await mongoClient.db(dbName).collection('topics').insertMany(nestedDataSet);
     console.log('Topic Seed Successful');
     process.exit(0);
   });

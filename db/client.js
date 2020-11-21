@@ -3,15 +3,19 @@ const config = require('lazy-config')
 
 
 const { url: dbUrl } = config.db;
+let client;
 
 const fetchMongoClient = async () => {
-  const client = new MongoClient(dbUrl, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-  });
+  if (!client) {
+    const _client = new MongoClient(dbUrl, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true
+    });
 
-  return client.connect();
+    client = await client.connect();
+  }
 
+  return client;
 };
 
 module.exports = fetchMongoClient;
