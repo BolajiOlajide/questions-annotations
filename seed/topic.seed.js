@@ -6,7 +6,6 @@ const generateNestedSet = require('../utils/generateNestedSet');
 const getMongoClient = require('../db/client');
 
 
-const { name: dbName } = config.db;
 const results = {};
 
 fs.createReadStream('./dataset/topics.csv')
@@ -71,6 +70,6 @@ fs.createReadStream('./dataset/topics.csv')
     await mongoClient.createIndex('topics', 'left', { unique: true });
     await mongoClient.createIndex('topics', 'right', { unique: true });
 
-    console.log('Topic Seed Successful');
+    console.log('Topics Seeded Successful');
     process.exit(0);
   });

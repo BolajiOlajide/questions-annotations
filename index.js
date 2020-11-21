@@ -5,7 +5,6 @@ const fetchMongoClient = require('./db/client');
 
 
 const { port } = config.app;
-const { name: dbName } = config.db;
 
 const app = express();
 
