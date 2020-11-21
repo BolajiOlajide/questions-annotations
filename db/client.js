@@ -2,7 +2,7 @@ const MongoClient = require('mongodb').MongoClient;
 const config = require('lazy-config')
 
 
-const { url: dbUrl } = config.db;
+const { url: dbUrl, name: dbName } = config.db;
 let client;
 
 const fetchMongoClient = async () => {
@@ -12,10 +12,10 @@ const fetchMongoClient = async () => {
       useUnifiedTopology: true
     });
 
-    client = await client.connect();
+    client = await _client.connect();
   }
 
-  return client;
+  return client.db(dbName);
 };
 
 module.exports = fetchMongoClient;

@@ -4,16 +4,25 @@ const config = require('lazy-config');
 const fetchMongoClient = require('./db/client');
 
 
-const { port } = config.app
+const { port } = config.app;
+const { name: dbName } = config.db;
 
 const app = express();
 
-app.get('/', (req, res) => {
-  const mongoClient = fetchMongoClient();
-  const { q } = req.query
+app.get('/', async (req, res) => {
+  const mongoClient = await fetchMongoClient();
+
+  const { q } = req.query;
 
   if (q) {
-    return res.json({ status: 'success', q });
+    const topic = await mongoClient.collection('topics').findOne({ name: q });
+    const _subtopics =  await mongoClient.collection('topics').find({
+      left: { $gt: topic.left },
+      right: { $lt: topic.right }
+    });
+
+    const subtopics = await _subtopics.toArray();
+    return res.json({ status: 'success', q, subtopics });
   }
 
   return res.status(400).json({

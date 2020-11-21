@@ -63,7 +63,14 @@ fs.createReadStream('./dataset/topics.csv')
   .on('end', async () => {
     const mongoClient = await getMongoClient();
     const nestedDataSet = generateNestedSet('Topics', Object.values(results));
-    await mongoClient.db(dbName).collection('topics').insertMany(nestedDataSet);
+
+    await mongoClient.collection('topics').insertMany(nestedDataSet);
+
+    // create indexes
+    await mongoClient.createIndex('topics', 'name', { unique: true });
+    await mongoClient.createIndex('topics', 'left', { unique: true });
+    await mongoClient.createIndex('topics', 'right', { unique: true });
+
     console.log('Topic Seed Successful');
     process.exit(0);
   });
