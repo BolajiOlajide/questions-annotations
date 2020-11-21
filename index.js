@@ -37,9 +37,11 @@ app.get('/search', async (req, res) => {
       message: 'Query string wasn\'t provided'
     });
   } catch (error) {
+    console.log(`Search topic: ${error.message}`);
+
     return res.status(422).json({
       status: 'error',
-      message: `There was an error searching for the topic. ${error.message}`
+      message: `There was an error searching for the topic. COnfirm the query passed in is a valid topic.`
     });
   }
 });
