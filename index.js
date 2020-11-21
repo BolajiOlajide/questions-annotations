@@ -17,13 +17,18 @@ app.get('/search', async (req, res) => {
 
   if (q) {
     const topic = await mongoClient.collection('topics').findOne({ name: q });
-    const _subtopics =  await mongoClient.collection('topics').find({
-      left: { $gt: topic.left },
-      right: { $lt: topic.right }
-    });
+    const _subtopics =  await mongoClient
+      .collection('topics')
+      .find({ left: { $gt: topic.left }, right: { $lt: topic.right } });
 
-    const subtopics = await _subtopics.toArray();
-    return res.json({ status: 'success', q, subtopics });
+    const subtopics = (await _subtopics.toArray()).map(subtopic => subtopic.name);
+
+    const questions = await mongoClient
+      .collection('questions')
+      .find({ annotations: { $in: subtopics } })
+      .toArray();
+
+    return res.json({ status: 'success', questions });
   }
 
   return res.status(400).json({
