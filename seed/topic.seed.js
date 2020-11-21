@@ -1,9 +1,12 @@
 const csv = require('csv-parser');
 const fs = require('fs');
+const config = require('lazy-config');
 
 const generateNestedSet = require('../utils/generateNestedSet');
+const getMongoClient = require('../db/client');
 
 
+const { name: dbName } = config.db;
 const results = {};
 
 fs.createReadStream('./dataset/topics.csv')
@@ -57,7 +60,11 @@ fs.createReadStream('./dataset/topics.csv')
       results[topicLevelOne] = topLevelNode;
     }
   })
-  .on('end', () => {
+  .on('end', async () => {
+    const mongoClient = await getMongoClient();
+    const db = mongoClient.db(dbName);
     const nestedDataSet = generateNestedSet('Topics', Object.values(results));
+    const result = await db.collection('topics').insertMany(nestedDataSet);
     console.log('Topic Seed Successful');
+    process.exit(0);
   });
